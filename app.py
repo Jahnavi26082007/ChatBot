@@ -1,21 +1,26 @@
+import streamlit as st
 import ollama
 
-print("AI Chat")
-print("Type 'exit' to stop\n")
+st.title("🤖 Welcome to AI Chatbot")
 
-while True:
-    user = input("You: ")
+user_input = st.text_input("Ask your question:")
 
-    if user.lower() == "exit":
-        print("Chat ended.")
-        break
+if st.button("Generate"):
+    if user_input:
+        st.success("Answer generated successfully!")
 
-    response = ollama.chat(
-        model="llama3.2",
-        messages=[
-            {"role": "user",
-              "content": user}
-        ]
-    )
+        st.write("Your Input:")
+        st.write(user_input)
 
-    print("AI:", response["message"]["content"])
+        response = ollama.chat(
+            model="llama3.2",
+            messages=[
+                {"role": "user", "content": user_input}
+            ]
+        )
+
+        st.write("Required Output:")
+        st.write(response["message"]["content"])
+
+    else:
+        st.warning("Please enter a question.")
